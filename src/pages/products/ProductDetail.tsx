@@ -32,7 +32,7 @@ const ButtonGroup = styled.div`
 
 function ProductsDetail() {
     const tamanhos = [4, 6, 8, 10];
-    const [product, setProduct] = useState([]);
+    const [product, setProduct] = useState({sku: 0, image: '', name: '', price: ''});
     const [tamanho, setTamanho] = useState(tamanhos[0]);
     // const [filters, setFilters] = useState([]);
 
@@ -40,10 +40,9 @@ function ProductsDetail() {
     const { addRequest, removeRequest } = useContext(LoadingContext);
     const { setMessage } = useContext(MessageContext);
 
-
     const history = useHistory();
 
-    const { sku } = useParams();
+    const { sku } = useParams<Sku>();
 
     // eslint-disable-next-line
     useEffect(() => loadProduct(), []);
@@ -60,7 +59,7 @@ function ProductsDetail() {
     function loadProduct() {
         addRequest();
         ProductsService.get()
-            .then(r => {
+            .then((r: Products) => {
                 const p = r.products.find(p => p.sku + '' === sku);
                 if (!p) {
                     throw new Error('Produto não encontrado!');
@@ -69,8 +68,23 @@ function ProductsDetail() {
                 setProduct(p);
                 // setFilters(r.filters);
             })
-            .catch((e) => setMessage(e.message))
+            .catch((e:Message) => setMessage(e.message))
             .finally(() => removeRequest());
+    }
+
+    interface Products {
+
+        products: [{sku: number, image: string, name: string, price: string}]
+    }
+
+    interface Message{
+
+         message: string;
+    }
+
+    interface Sku{
+
+        sku: string;
     }
 
     return (

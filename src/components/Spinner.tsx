@@ -63,7 +63,9 @@ function Spinner() {
     const { isLoading } = useContext(LoadingContext);
 
     return (
-        isLoading() && <StyledSpinner></StyledSpinner>
+        <>
+            {isLoading() && <StyledSpinner></StyledSpinner>}
+        </>
     );
 }
 

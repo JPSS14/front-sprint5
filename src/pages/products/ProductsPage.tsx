@@ -7,7 +7,7 @@ import ProductsService from "../../services/ProductsService";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Filters from "./components/Filters";
 
-function Product({ sku, image, name, price }) {
+function Product({ sku, image, name, price }: {sku: number, image: string, name: string, price: string}) {
     const history = useHistory();
 
     function detail() {
@@ -30,8 +30,8 @@ function Product({ sku, image, name, price }) {
 }
 
 function ProductsPage() {
-    const [products, setProducts] = useState([]);
-    const [filters, setFilters] = useState([]);
+    const [products, setProducts] = useState({products: [{sku: 0, image: '', name: '', price: ''}]});
+    const [filters, setFilters] = useState({filters: [{id: '', label: ''}]});
 
     const { filter } = useContext(FilterContext);
     const { addRequest, removeRequest } = useContext(LoadingContext);
@@ -43,22 +43,28 @@ function ProductsPage() {
     function loadProducts() {
         addRequest();
         ProductsService.get()
-            .then(r => {
-                setProducts(r.products);
-                setFilters(r.filters);
+            .then((r: Products) => {
+                setProducts(r);
+                setFilters(r);
             })
             .catch(() => setMessage("Ocorreu um erro ao carregar os produtos..."))
             .finally(() => removeRequest());
     }
 
+    interface Products{
+
+        products: [{sku: number, image: string, name: string, price: string}]
+        filters: [ filters: {id: string, label: string}]
+    }
+
     return (
         <>
             <Breadcrumbs></Breadcrumbs>
-            <Filters filters={filters}></Filters>
+            <Filters filters={filters.filters}></Filters>
             <section className="main__products products">
                 <div className="products__row">
                     <ol className="products__list">
-                        {products
+                        {products.products
                             .filter(p =>
                                 filter ? p.name.toUpperCase().indexOf(filter.toUpperCase()) !== -1 : true)
                             .map(

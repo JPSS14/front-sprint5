@@ -18,3 +18,13 @@ function Filters({ filters }) {
 }
 
 export default Filters;
+
+// interface Filters {
+//     filters: [{id: string, label: string}]
+// }
+
+// interface Filter {
+
+//     id: string;
+//     label: string
+// }

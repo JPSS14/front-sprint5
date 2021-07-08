@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import FilterContext from "../contexts/FilterContext";
 import Menu from "./Menu";

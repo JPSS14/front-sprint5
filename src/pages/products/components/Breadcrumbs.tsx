@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import CategoriesContext from "../../../contexts/CategoriesContext";
 
-function BreadcrumbItem({ link, label }) {
+function BreadcrumbItem({ link, label }: { link: string, label: string}) {
     return (
         <li className="breadcrumbs__item">
             { link ?

@@ -28,11 +28,14 @@ function Message() {
     const { message, setMessage } = useContext(MessageContext);
 
     return (
-        message &&
-        <Alert>
-            <CloseBtn onClick={() => setMessage("")} >&times;</CloseBtn>
-            {message}
-        </Alert>
+        <>
+            {message &&
+                <Alert>
+                    <CloseBtn onClick={() => setMessage("")} >&times;</CloseBtn>
+                    {message}
+                </Alert>
+            }
+        </>
     );
 }
 

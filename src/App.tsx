@@ -16,6 +16,8 @@ import useLoading from './hooks/useLoading';
 import ProductsPage from './pages/products/ProductsPage';
 import ProductDetail from './pages/products/ProductDetail';
 import CategoriesService from './services/CategoriesService';
+import { Categories } from './interfaces/Categories';
+import { SpinnerInterface } from './interfaces/SpinnerInterface';
 
 const Main = styled.main`
   margin: 0 auto;
@@ -31,26 +33,14 @@ const Main = styled.main`
 function App() {
   const [filter, setFilter] = useState('');
   const [message, setMessage] = useState('');
-  // const [categories, setCategories] = useState<Categories>({ categories: {content: [{ all: [{ id: 0, label: '', link: '' }] }, { current: [{ id: 0, link: '', name: '' }] }] }});
-  const [categories, setCategories] = useState<Categories>({  all: [{ id: 0, label: '', link: '' }], current: [{id: 0, link: '', name: ''}]  });
 
-  const [addRequest, removeRequest, isLoading] = useLoading<Spinner>({ addRequest: () => 0, removeRequest: () => 0, isLoading: () => false });
+  // const [categories, setCategories] = useState<Categories>({  all: [{ id: 0, label: '', link: '' }], current: [{id: 0, link: '', name: ''}]  });
+  const [categories, setCategories] = useState<Categories>({} as Categories);
+
+  const [addRequest, removeRequest, isLoading] = useLoading<SpinnerInterface>({} as SpinnerInterface);
 
   // eslint-disable-next-line
   useEffect(() => loadCategories(), []);
-
-  interface Spinner {
-    addRequest: () => number;
-    removeRequest: () => number;
-    isLoading: () => boolean;
-  }
-
-interface Categories {
-
-  all: [{ id: number, label: string, link: string }]
-  current: [{id: number, link: string, name: string}]
-
-}
 
 function loadCategories() {
   addRequest();

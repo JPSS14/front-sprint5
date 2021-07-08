@@ -3,6 +3,8 @@ import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import LoadingContext from "../../contexts/LoadingContext";
 import MessageContext from "../../contexts/MessageContext";
+import { MessageInterface } from "../../interfaces/MessageInterface";
+import { Sku } from "../../interfaces/Sku";
 import ProductsService from "../../services/ProductsService";
 
 const Detail = styled.section`
@@ -68,23 +70,13 @@ function ProductsDetail() {
                 setProduct(p);
                 // setFilters(r.filters);
             })
-            .catch((e:Message) => setMessage(e.message))
+            .catch((e:MessageInterface) => setMessage(e.message))
             .finally(() => removeRequest());
     }
 
     interface Products {
 
         products: [{sku: number, image: string, name: string, price: string}]
-    }
-
-    interface Message{
-
-         message: string;
-    }
-
-    interface Sku{
-
-        sku: string;
     }
 
     return (

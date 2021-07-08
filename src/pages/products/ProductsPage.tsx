@@ -3,11 +3,13 @@ import { useHistory } from "react-router-dom";
 import FilterContext from "../../contexts/FilterContext";
 import LoadingContext from "../../contexts/LoadingContext";
 import MessageContext from "../../contexts/MessageContext";
+import ProductsContext from "../../contexts/ProductsContext";
 import ProductsService from "../../services/ProductsService";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Filters from "./components/Filters";
+import { ProductItem } from "../../types/ProductItem";
 
-function Product({ sku, image, name, price }: {sku: number, image: string, name: string, price: string}) {
+function Product({ sku, image, name, price }: { sku: number, image: string, name: string, price: string }) {
     const history = useHistory();
 
     function detail() {
@@ -30,8 +32,8 @@ function Product({ sku, image, name, price }: {sku: number, image: string, name:
 }
 
 function ProductsPage() {
-    const [products, setProducts] = useState({products: [{sku: 0, image: '', name: '', price: ''}]});
-    const [filters, setFilters] = useState({filters: [{id: '', label: ''}]});
+    const [products, setProducts] = useState({ products: [{ sku: 0, image: '', name: '', price: '' }] });
+    const [filters, setFilters] = useState({ filters: [{ id: '', label: '' }] });
 
     const { filter } = useContext(FilterContext);
     const { addRequest, removeRequest } = useContext(LoadingContext);
@@ -51,16 +53,16 @@ function ProductsPage() {
             .finally(() => removeRequest());
     }
 
-    interface Products{
+    interface Products {
 
-        products: [{sku: number, image: string, name: string, price: string}]
-        filters: [ filters: {id: string, label: string}]
+        products: ProductItem[];
+        filters: [filters: { id: string, label: string }]
     }
 
     return (
-        <>
+        <ProductsContext.Provider value={filters}>
             <Breadcrumbs></Breadcrumbs>
-            <Filters filters={filters.filters}></Filters>
+            <Filters></Filters>
             <section className="main__products products">
                 <div className="products__row">
                     <ol className="products__list">
@@ -79,7 +81,7 @@ function ProductsPage() {
                     </ol>
                 </div>
             </section>
-        </>
+        </ProductsContext.Provider>
 
     );
 }

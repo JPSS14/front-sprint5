@@ -1,4 +1,7 @@
-function FilterItem({ label }) {
+import { useContext } from "react";
+import ProductsContext from "../../../contexts/ProductsContext";
+
+function FilterItem({ label }: {label: string}) {
     return (
         <li className="filters__item">
             <span className="filters__label">{label}</span>
@@ -7,7 +10,8 @@ function FilterItem({ label }) {
     );
 }
 
-function Filters({ filters }) {
+function Filters() {
+    const {filters} = useContext(ProductsContext);
     return (
         <section className="main__filters filters">
             <ul className="filters__list">
